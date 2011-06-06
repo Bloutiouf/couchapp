@@ -219,6 +219,11 @@ function $$(node) {
         var newElem = mustachioed(me, h, args);
         me[act](newElem);
       }
+      else if (h.jqote) {
+        // $.log("rendering", h.jqote)
+        var newElem = jqoted(me, h, args);
+        me[act](newElem);
+      }
       if (selectors) {
         if (act == "replace") {
           var s = me;
@@ -245,6 +250,12 @@ function $$(node) {
       runIfFun(me, h.mustache, args),
       runIfFun(me, h.data, args), 
       runIfFun(me, $.extend(true, partials, h.partials), args)));
+  };
+  
+  function jqoted(me, h, args) {
+    return $.jqote(
+      runIfFun(me, h.jqote, args),
+      runIfFun(me, h.data, args));
   };
   
   function runAsync(me, h, args) {  
